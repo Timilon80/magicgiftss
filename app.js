@@ -84,6 +84,9 @@ const DELIVERY_ZONES = [
 
 const MIN_ORDER_ADVANCE_HOURS = 24;
 const DEFAULT_BRAND_LOGO = "./LOGO.png";
+const TEMP_PRODUCT_PRICE_MIN = 10000;
+const TEMP_PRODUCT_PRICE_MAX = 100000;
+const TEMP_PRODUCT_PRICE_STEP = 1000;
 
 const defaultDeliveryFees = {
   usaquen: 14000,
@@ -310,14 +313,18 @@ function createSeedProducts() {
     const baseName = PRODUCT_BASE_NAMES[category] || "Producto";
     const categoryId = category.toLowerCase().replace(/\s+/g, "-");
 
-    return products.concat(files.map((fileName, index) => ({
-      id: `seed-${categoryId}-${index + 1}`,
-      name: `${baseName} ${index + 1}`,
-      category,
-      price: null,
-      description: "",
-      image: buildCatalogImagePath(category, fileName),
-    })));
+    return products.concat(files.map((fileName, index) => {
+      const id = `seed-${categoryId}-${index + 1}`;
+
+      return {
+        id,
+        name: `${baseName} ${index + 1}`,
+        category,
+        price: getTemporaryProductPrice(id),
+        description: "",
+        image: buildCatalogImagePath(category, fileName),
+      };
+    }));
   }, []);
 }
 
@@ -350,6 +357,18 @@ function getCategoryTheme(category) {
 function buildCategoryThemeStyle(category) {
   const theme = getCategoryTheme(category);
   return `--category-accent:${theme.accent};--category-accent-soft:${theme.accentSoft};--category-accent-strong:${theme.accentStrong};`;
+}
+
+function getTemporaryProductPrice(seedValue) {
+  const seed = String(seedValue || "magicgiftss");
+  let hash = 0;
+
+  for (let index = 0; index < seed.length; index += 1) {
+    hash = ((hash * 31) + seed.charCodeAt(index)) | 0;
+  }
+
+  const stepCount = Math.floor((TEMP_PRODUCT_PRICE_MAX - TEMP_PRODUCT_PRICE_MIN) / TEMP_PRODUCT_PRICE_STEP) + 1;
+  return TEMP_PRODUCT_PRICE_MIN + (Math.abs(hash) % stepCount) * TEMP_PRODUCT_PRICE_STEP;
 }
 
 function getCompactTextClass(value, mediumLength = 16, longLength = 24) {
@@ -437,16 +456,19 @@ function normalizeProduct(product, index) {
   const baseName = PRODUCT_BASE_NAMES[category] || "Producto";
   const rawPrice = Number(product.price);
   const image = String(product.image || "").trim();
+  const fallbackId = typeof product.id === "string" && product.id ? product.id : `product-${category.toLowerCase().replace(/\s+/g, "-")}-${index + 1}`;
+  const fallbackName = String(product.name || "").trim() || `${baseName} ${index + 1}`;
+  const fallbackPrice = getTemporaryProductPrice(`${fallbackId}:${fallbackName}:${category}`);
 
   if (!image) {
     return null;
   }
 
   return {
-    id: typeof product.id === "string" && product.id ? product.id : `product-${category.toLowerCase().replace(/\s+/g, "-")}-${index + 1}`,
-    name: String(product.name || "").trim() || `${baseName} ${index + 1}`,
+    id: fallbackId,
+    name: fallbackName,
     category,
-    price: Number.isFinite(rawPrice) && rawPrice > 0 ? Math.round(rawPrice) : null,
+    price: Number.isFinite(rawPrice) && rawPrice > 0 ? Math.round(rawPrice) : fallbackPrice,
     description: String(product.description || "").trim(),
     image,
   };
@@ -1645,10 +1667,9 @@ function renderProducts() {
   }
 
   refs.productGrid.innerHTML = filteredProducts.map((product) => {
-    const canPurchase = hasPublishedPrice(product);
-    const actionButton = canPurchase
-      ? `<button type="button" class="primary-button wide-button" data-add-product="${product.id}">Agregar al carrito</button>`
-      : `<button type="button" class="secondary-button wide-button" data-inquire-product="${product.id}">Consultar por WhatsApp</button>`;
+    const productPrice = hasPublishedPrice(product)
+      ? product.price
+      : getTemporaryProductPrice(`${product.id}:${product.name}:${product.category}`);
 
     return `
       <article class="product-card category-panel" style="${buildCategoryThemeStyle(product.category)}">
@@ -1658,14 +1679,14 @@ function renderProducts() {
 
         <div class="product-top">
           <span class="category-badge${getCompactTextClass(product.category, 14, 20)}">${escapeHtml(product.category)}</span>
-          ${canPurchase ? `<span class="product-price">${formatCurrency(product.price)}</span>` : ""}
+          <span class="product-price">${formatCurrency(productPrice)}</span>
         </div>
 
         <div class="product-copy${getCompactTextClass(product.name, 24, 36)}">
           <h3>${escapeHtml(product.name)}</h3>
         </div>
 
-        ${actionButton}
+        <button type="button" class="primary-button wide-button" data-add-product="${product.id}">Agregar al carrito</button>
       </article>
     `;
   }).join("");
@@ -1827,8 +1848,8 @@ function closeOverlay(overlay) {
 
 function addToCart(productId) {
   const product = state.products.find((item) => item.id === productId);
-  if (!product || !hasPublishedPrice(product)) {
-    showToast("Este producto no tiene valor publicado todavía.");
+  if (!product) {
+    showToast("No se pudo agregar el producto.");
     return false;
   }
 
@@ -2015,34 +2036,6 @@ function openWhatsappWindow(number, message) {
   const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
   const popup = window.open(url, "_blank", "noopener,noreferrer");
   return Boolean(popup);
-}
-
-function openWhatsAppProductInquiry(productId) {
-  const product = state.products.find((item) => item.id === productId);
-  if (!product) {
-    return;
-  }
-
-  const whatsappNumber = normalizeWhatsappNumber(state.settings.whatsappNumber);
-  if (!whatsappNumber) {
-    showToast("El WhatsApp del negocio no está configurado.");
-    return;
-  }
-
-  const message = [
-    `Hola, quiero información sobre este producto de ${state.settings.storeName}:`,
-    "",
-    `Producto: ${product.name}`,
-    `Categoría: ${product.category}`,
-    product.description ? `Detalle: ${product.description}` : "",
-  ].filter(Boolean).join("\n");
-
-  if (!openWhatsappWindow(whatsappNumber, message)) {
-    showToast("El navegador bloqueó WhatsApp. Permite ventanas emergentes e intenta de nuevo.");
-    return;
-  }
-
-  showToast("Consulta abierta en WhatsApp.");
 }
 
 function validateCheckoutForm() {
@@ -2354,12 +2347,6 @@ refs.menuStageViewport.addEventListener("pointerover", handleCatalogMenuHover);
 refs.menuStageViewport.addEventListener("pointerout", handleCatalogMenuLeave);
 
 refs.productGrid.addEventListener("click", (event) => {
-  const inquiryTrigger = event.target.closest("[data-inquire-product]");
-  if (inquiryTrigger) {
-    openWhatsAppProductInquiry(inquiryTrigger.dataset.inquireProduct);
-    return;
-  }
-
   const trigger = event.target.closest("[data-add-product]");
   if (!trigger) {
     return;
@@ -2669,8 +2656,11 @@ refs.productForm.addEventListener("submit", (event) => {
   const description = String(formData.get("productDescription") || "").trim();
   const rawPrice = String(formData.get("productPrice") || "").trim();
   const parsedPrice = rawPrice ? Number(rawPrice) : null;
-  const price = Number.isFinite(parsedPrice) && parsedPrice > 0 ? Math.round(parsedPrice) : null;
   const existingProduct = state.products.find((item) => item.id === state.editingProductId);
+  const productId = existingProduct?.id || createId("product");
+  const price = Number.isFinite(parsedPrice) && parsedPrice > 0
+    ? Math.round(parsedPrice)
+    : getTemporaryProductPrice(`${productId}:${name}:${category}`);
   const image = state.pendingImage || existingProduct?.image || "";
 
   if (!name || !category) {
@@ -2689,7 +2679,7 @@ refs.productForm.addEventListener("submit", (event) => {
   }
 
   const product = {
-    id: existingProduct?.id || createId("product"),
+    id: productId,
     name,
     category,
     description,
