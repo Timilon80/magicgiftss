@@ -736,7 +736,17 @@ body.intro-leaving .intro-overlay-content {
   color: var(--primary-strong);
   font-size: 0.76rem;
   font-weight: 700;
+  line-height: 1.15;
+  white-space: normal;
   background: rgba(255, 255, 255, 0.75);
+}
+
+.category-badge.text-compact-medium {
+  font-size: 0.72rem;
+}
+
+.category-badge.text-compact-long {
+  font-size: 0.68rem;
 }
 
 .hero-card h1 {
@@ -1143,6 +1153,14 @@ body[data-sound-mode="festive"] .horizontal-wordmark .wordmark-line span {
   text-wrap: balance;
 }
 
+.menu-stage-item.text-compact-medium .menu-stage-overlay strong {
+  font-size: clamp(0.88rem, 2.1vw, 1.08rem);
+}
+
+.menu-stage-item.text-compact-long .menu-stage-overlay strong {
+  font-size: clamp(0.8rem, 1.9vw, 0.98rem);
+}
+
 .menu-stage-item[data-side="active"] .menu-stage-slide {
   filter: none;
   opacity: 1;
@@ -1259,6 +1277,14 @@ body[data-sound-mode="festive"] .horizontal-wordmark .wordmark-line span {
   white-space: normal;
 }
 
+.chip.text-compact-medium {
+  font-size: 0.9rem;
+}
+
+.chip.text-compact-long {
+  font-size: 0.84rem;
+}
+
 .category-chip {
   position: relative;
   overflow: hidden;
@@ -1347,6 +1373,7 @@ body[data-sound-mode="festive"] .horizontal-wordmark .wordmark-line span {
 
 .product-top {
   align-items: flex-start;
+  gap: 8px;
 }
 
 .product-price,
@@ -1380,6 +1407,15 @@ body[data-sound-mode="festive"] .horizontal-wordmark .wordmark-line span {
   line-height: 1.18;
   overflow-wrap: anywhere;
   text-wrap: balance;
+}
+
+.product-copy.text-compact-medium h3 {
+  font-size: 1rem;
+}
+
+.product-copy.text-compact-long h3 {
+  font-size: 0.94rem;
+  line-height: 1.22;
 }
 
 .site-footer {
@@ -2067,6 +2103,23 @@ textarea {
 }
 
 @media (max-width: 520px) {
+  .category-badge {
+    max-width: 62%;
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
+  .category-badge.text-compact-medium {
+    font-size: 0.66rem;
+  }
+
+  .category-badge.text-compact-long {
+    max-width: 68%;
+    font-size: 0.62rem;
+  }
+
   .chip-row {
     gap: 8px;
   }
@@ -2076,6 +2129,15 @@ textarea {
     padding: 8px 12px;
     font-size: 0.84rem;
     line-height: 1.15;
+  }
+
+  .chip.text-compact-medium {
+    font-size: 0.8rem;
+  }
+
+  .chip.text-compact-long {
+    font-size: 0.74rem;
+    line-height: 1.1;
   }
 
   .category-chip {
@@ -2241,10 +2303,28 @@ textarea {
     line-height: 1.18;
   }
 
+  .menu-stage-item.text-compact-medium .menu-stage-overlay strong {
+    font-size: clamp(0.84rem, 3.8vw, 0.94rem);
+  }
+
+  .menu-stage-item.text-compact-long .menu-stage-overlay strong {
+    font-size: clamp(0.76rem, 3.5vw, 0.86rem);
+    line-height: 1.14;
+  }
+
   .product-copy h3 {
     font-size: 0.98rem;
     line-height: 1.24;
     word-break: break-word;
+  }
+
+  .product-copy.text-compact-medium h3 {
+    font-size: 0.92rem;
+  }
+
+  .product-copy.text-compact-long h3 {
+    font-size: 0.86rem;
+    line-height: 1.2;
   }
 
   .intro-overlay {

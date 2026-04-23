@@ -351,6 +351,19 @@ function buildCategoryThemeStyle(category) {
   return `--category-accent:${theme.accent};--category-accent-soft:${theme.accentSoft};--category-accent-strong:${theme.accentStrong};`;
 }
 
+function getCompactTextClass(value, mediumLength = 16, longLength = 24) {
+  const length = String(value || "").trim().length;
+  if (length >= longLength) {
+    return " text-compact-long";
+  }
+
+  if (length >= mediumLength) {
+    return " text-compact-medium";
+  }
+
+  return "";
+}
+
 function readStorage(key, fallback) {
   try {
     const rawValue = localStorage.getItem(key);
@@ -1552,7 +1565,7 @@ function renderCategoryFilters() {
 
   refs.categoryFilters.innerHTML = categories
     .map((category) => `
-      <button type="button" class="chip category-chip ${category === state.activeCategory ? "active" : ""}" data-category="${escapeHtml(category)}" style="${buildCategoryThemeStyle(category)}">
+      <button type="button" class="chip category-chip${getCompactTextClass(category, 14, 20)} ${category === state.activeCategory ? "active" : ""}" data-category="${escapeHtml(category)}" style="${buildCategoryThemeStyle(category)}">
         ${escapeHtml(category)}
       </button>
     `)
@@ -1579,7 +1592,7 @@ function renderMenuStage() {
     return `
       <button
         type="button"
-        class="menu-stage-item ${category === state.activeCategory ? "is-active" : ""} ${centerOffset >= 2 ? "is-distant" : ""}"
+        class="menu-stage-item${getCompactTextClass(category, 14, 20)} ${category === state.activeCategory ? "is-active" : ""} ${centerOffset >= 2 ? "is-distant" : ""}"
         data-menu-category="${escapeHtml(category)}"
         data-side="${side}"
         style="${themeStyle} --center-offset:${centerOffset};--i:${index};"
@@ -1633,11 +1646,11 @@ function renderProducts() {
         </div>
 
         <div class="product-top">
-          <span class="category-badge">${escapeHtml(product.category)}</span>
+          <span class="category-badge${getCompactTextClass(product.category, 14, 20)}">${escapeHtml(product.category)}</span>
           ${canPurchase ? `<span class="product-price">${formatCurrency(product.price)}</span>` : ""}
         </div>
 
-        <div class="product-copy">
+        <div class="product-copy${getCompactTextClass(product.name, 24, 36)}">
           <h3>${escapeHtml(product.name)}</h3>
           ${product.description ? `<p>${escapeHtml(product.description)}</p>` : ""}
         </div>
