@@ -1,0 +1,25 @@
+{
+  "name": "MAGIC GIFTSS",
+  "short_name": "MAGIC GIFTSS",
+  "description": "Tienda móvil de regalos y detalles con pedido directo por WhatsApp.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f1ff",
+  "theme_color": "#b997ee",
+  "icons": [
+    {
+      "src": "./icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
