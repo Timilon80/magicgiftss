@@ -1470,6 +1470,40 @@ body[data-sound-mode="festive"] .horizontal-wordmark .wordmark-line span {
   line-height: 1.46;
 }
 
+.product-description-box {
+  min-height: 52px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--category-accent, #b997ee) 24%, white);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 0.74rem;
+  line-height: 1.28;
+  background: color-mix(in srgb, var(--category-accent-soft, #f0e6ff) 78%, white);
+  overflow: hidden;
+}
+
+.product-description-box span {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.product-description-box.is-empty {
+  color: var(--muted);
+}
+
+.product-action-button {
+  width: fit-content;
+  max-width: 100%;
+  min-height: 36px;
+  padding: 0 12px;
+  justify-self: start;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  line-height: 1.1;
+}
+
 .product-copy h3,
 .sheet-head h2,
 .panel-card h3,
@@ -2421,6 +2455,19 @@ textarea {
     font-size: 0.98rem;
     line-height: 1.24;
     word-break: break-word;
+  }
+
+  .product-description-box {
+    min-height: 46px;
+    padding: 7px 8px;
+    font-size: 0.68rem;
+    line-height: 1.22;
+  }
+
+  .product-action-button {
+    min-height: 34px;
+    padding: 0 10px;
+    font-size: 0.72rem;
   }
 
   .product-copy.text-compact-medium h3 {

@@ -577,8 +577,6 @@ const refs = {
   adminProductList: document.getElementById("adminProductList"),
   brandImages: Array.from(document.querySelectorAll("[data-brand-image]")),
   brandMark: document.getElementById("brandMark"),
-  brandNameNodes: Array.from(document.querySelectorAll("[data-brand-name]")),
-  brandTitleNodes: Array.from(document.querySelectorAll("[data-brand-title]")),
   categoryEventsForm: document.getElementById("categoryEventsForm"),
   categoryEventCategory: document.getElementById("categoryEventCategory"),
   categoryEventImage: document.getElementById("categoryEventImage"),
@@ -1450,12 +1448,6 @@ function renderBranding() {
   refs.brandImages.forEach((image) => {
     image.src = logoSource;
   });
-  refs.brandNameNodes.forEach((node) => {
-    node.textContent = state.settings.storeName;
-  });
-  refs.brandTitleNodes.forEach((node) => {
-    node.setAttribute("aria-label", state.settings.storeName);
-  });
 }
 
 function validateCustomerPhone(value) {
@@ -1670,6 +1662,9 @@ function renderProducts() {
     const productPrice = hasPublishedPrice(product)
       ? product.price
       : getTemporaryProductPrice(`${product.id}:${product.name}:${product.category}`);
+    const productDescription = product.description
+      ? escapeHtml(product.description)
+      : "Sin descripcion por ahora.";
 
     return `
       <article class="product-card category-panel" style="${buildCategoryThemeStyle(product.category)}">
@@ -1686,7 +1681,11 @@ function renderProducts() {
           <h3>${escapeHtml(product.name)}</h3>
         </div>
 
-        <button type="button" class="primary-button wide-button" data-add-product="${product.id}">Agregar al carrito</button>
+        <div class="product-description-box${product.description ? "" : " is-empty"}">
+          <span>${productDescription}</span>
+        </div>
+
+        <button type="button" class="primary-button product-action-button" data-add-product="${product.id}">Agregar al carrito</button>
       </article>
     `;
   }).join("");
