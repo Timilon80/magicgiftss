@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#b997ee" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="MAGIC GIFTSS" />
+  <meta name="description" content="Tienda móvil de regalos y detalles con pedido directo por WhatsApp." />
+  <title>MAGIC GIFTSS | Tienda móvil</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="introOverlay" class="intro-overlay" aria-hidden="true">
+    <div class="intro-slideshow" aria-hidden="true">
+      <div class="intro-slide intro-slide-1"></div>
+      <div class="intro-slide intro-slide-2"></div>
+      <div class="intro-slide intro-slide-3"></div>
+      <div class="intro-slide intro-slide-4"></div>
+      <div class="intro-slide intro-slide-5"></div>
+      <div class="intro-slide intro-slide-6"></div>
+      <div class="intro-slide intro-slide-7"></div>
+    </div>
+    <div class="intro-overlay-ambient"></div>
+    <div class="intro-fall-column intro-fall-column-left" aria-hidden="true">
+      <span class="intro-fall-item intro-fall-item-floral">&#x1F490;</span>
+      <span class="intro-fall-item intro-fall-item-floral">&#x1F338;</span>
+      <span class="intro-fall-item intro-fall-item-floral">&#x1F490;</span>
+      <span class="intro-fall-item intro-fall-item-floral">&#x1F337;</span>
+      <span class="intro-fall-item intro-fall-item-floral">&#x1F490;</span>
+      <span class="intro-fall-item intro-fall-item-floral">&#x1F339;</span>
+    </div>
+    <div class="intro-fall-column intro-fall-column-right" aria-hidden="true">
+      <span class="intro-fall-item intro-fall-item-balloon">&#x1F388;</span>
+      <span class="intro-fall-item intro-fall-item-balloon">&#x1F388;</span>
+      <span class="intro-fall-item intro-fall-item-balloon">&#x1F388;</span>
+      <span class="intro-fall-item intro-fall-item-balloon">&#x1F388;</span>
+      <span class="intro-fall-item intro-fall-item-balloon">&#x1F388;</span>
+      <span class="intro-fall-item intro-fall-item-balloon">&#x1F388;</span>
+    </div>
+    <div class="intro-overlay-content">
+      <span class="intro-kicker">Bienvenido a</span>
+      <div class="intro-wordmark-shell">
+        <h1 class="animated-wordmark intro-wordmark horizontal-wordmark" aria-label="MAGIC GIFTSS">
+          <span class="wordmark-line" aria-hidden="true">
+            <span>M</span>
+            <span>A</span>
+            <span>G</span>
+            <span>I</span>
+            <span>C</span>
+            <span class="wordmark-gap"></span>
+            <span>G</span>
+            <span>I</span>
+            <span>F</span>
+            <span>T</span>
+            <span>S</span>
+            <span>S</span>
+          </span>
+          <span class="sr-only">MAGIC GIFTSS</span>
+        </h1>
+      </div>
+      <button type="button" id="skipIntroButton" class="ghost-button intro-skip-button">Saltar intro</button>
+    </div>
+  </div>
+
+  <div id="pointerTrailLayer" class="pointer-trail-layer" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <button type="button" id="secretTrigger" class="brand-button" aria-label="Marca MAGIC GIFTSS">
+        <span id="brandMark" class="brand-mark">MG</span>
+        <span class="brand-copy">
+          <strong id="storeNameView">MAGIC GIFTSS</strong>
+          <small id="storePitchView">Regalos y detalles</small>
+        </span>
+      </button>
+
+      <button type="button" id="cartOpenButton" class="icon-button" aria-label="Abrir carrito">
+        <span class="icon-circle">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 4h2l1.2 6.2A2 2 0 0 0 8.2 12H18a2 2 0 0 0 1.9-1.4L21 7H7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" />
+            <circle cx="9" cy="19" r="1.5" fill="currentColor" />
+            <circle cx="18" cy="19" r="1.5" fill="currentColor" />
+          </svg>
+        </span>
+        <span id="cartCount" class="counter-pill">0</span>
+      </button>
+    </header>
+
+    <main class="main-content">
+      <section class="hero-card">
+        <h1 id="heroTitle" class="animated-wordmark horizontal-wordmark" aria-label="MAGIC GIFTSS">
+          <span class="wordmark-line" aria-hidden="true">
+            <span>M</span>
+            <span>A</span>
+            <span>G</span>
+            <span>I</span>
+            <span>C</span>
+            <span class="wordmark-gap"></span>
+            <span>G</span>
+            <span>I</span>
+            <span>F</span>
+            <span>T</span>
+            <span>S</span>
+            <span>S</span>
+          </span>
+          <span class="sr-only">MAGIC GIFTSS</span>
+        </h1>
+        <p id="heroDescription">Escoge un producto, confirma día y hora y envía el pedido completo por WhatsApp.</p>
+
+        <div class="hero-actions">
+          <button type="button" class="primary-button" data-open-cart="true">Ver carrito</button>
+          <button type="button" id="installButton" class="secondary-button" hidden>Instalar app</button>
+        </div>
+      </section>
+
+      <section class="filter-section">
+        <div id="categoryFilters" class="chip-row" aria-label="Filtros por categoría"></div>
+      </section>
+
+      <section class="menu-stage" aria-label="Navegación entre categorías">
+        <button type="button" id="menuStagePrev" class="menu-stage-nav menu-stage-prev" aria-label="Categoría anterior">
+          <span aria-hidden="true">&lsaquo;</span>
+        </button>
+        <div id="menuStageViewport" class="menu-stage-viewport"></div>
+        <button type="button" id="menuStageNext" class="menu-stage-nav menu-stage-next" aria-label="Categoría siguiente">
+          <span aria-hidden="true">&rsaquo;</span>
+        </button>
+      </section>
+
+      <section id="productGrid" class="product-grid" aria-live="polite"></section>
+    </main>
+
+    <footer class="site-footer" aria-label="Pie de página">
+      <div class="site-footer-shell">
+        <button type="button" class="footer-menu-link" data-footer-open="about">Nosotros</button>
+        <button type="button" class="footer-menu-link" data-footer-open="contacts">Contactos</button>
+        <button type="button" class="footer-menu-link" data-footer-open="faq">Preguntas frecuentes</button>
+        <button type="button" class="footer-menu-link" data-footer-open="policies">Nuestra política</button>
+        <button type="button" class="footer-menu-link" data-footer-open="gallery">Galería</button>
+      </div>
+    </footer>
+  </div>
+
+  <aside class="social-dock" aria-label="Redes sociales">
+    <a
+      class="social-link social-instagram"
+      href="https://www.instagram.com/detalles_para_cada_momento"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Abrir Instagram"
+      title="Instagram"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10A2.8 2.8 0 0 0 19.8 17V7A2.8 2.8 0 0 0 17 4.2H7Zm10.8 1.4a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2.2a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6Z" fill="currentColor" />
+      </svg>
+    </a>
+
+    <button type="button" id="facebookSocialButton" class="social-link social-facebook" aria-label="Abrir Facebook" title="Facebook">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.5 1.6-1.5H17V4.3c-.4-.1-1.7-.3-3.1-.3-3.1 0-5.1 1.9-5.1 5.3v2.9H6V14h2.8v8h4.7Z" fill="currentColor" />
+      </svg>
+    </button>
+  </aside>
+
+  <div id="footerInfoOverlay" class="overlay" hidden>
+    <section id="footerInfoSheet" class="sheet footer-sheet" aria-label="Contenido del pie de página" data-footer-section="about">
+      <div class="sheet-head">
+        <div>
+          <span class="sheet-label">Información</span>
+          <h2 id="footerModalTitle">Nosotros</h2>
+        </div>
+
+        <button type="button" class="close-button" data-close="#footerInfoOverlay" aria-label="Cerrar información">x</button>
+      </div>
+
+      <div id="footerModalContent" class="footer-modal-content"></div>
+
+      <section id="footerEditorPanel" class="panel-card footer-editor-panel" hidden>
+        <div class="panel-head-inline">
+          <h3>Editar pie de página</h3>
+          <span class="subtext">Disponible solo en la copia local del proyecto.</span>
+        </div>
+
+        <form id="footerSectionsForm" class="stack-form">
+          <div class="field-group">
+            <label for="footerAbout">Nosotros</label>
+            <textarea id="footerAbout" name="footerAbout" placeholder="Contenido de Nosotros"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="footerContacts">Contactos</label>
+            <textarea id="footerContacts" name="footerContacts" placeholder="Contenido de Contactos"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="footerFaq">Preguntas frecuentes</label>
+            <textarea id="footerFaq" name="footerFaq" placeholder="Contenido de preguntas frecuentes"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="footerPolicies">Nuestra política</label>
+            <textarea id="footerPolicies" name="footerPolicies" placeholder="Contenido de nuestra política"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="footerGalleryImage">Galería</label>
+            <input id="footerGalleryImage" name="footerGalleryImage" type="file" accept="image/*" />
+            <small class="helper-note">Sube una imagen para la galería del pie de página.</small>
+          </div>
+
+          <div id="footerGalleryPreview" class="preview-box media-frame media-frame-product"></div>
+
+          <button type="submit" class="secondary-button wide-button">Guardar pie de pagina</button>
+        </form>
+
+        <div id="footerGalleryAdminList" class="admin-event-list"></div>
+      </section>
+    </section>
+  </div>
+
+  <button type="button" id="floatingCartButton" class="floating-cart" data-open-cart="true" hidden>
+    <span id="floatingCartLabel">Tu carrito</span>
+    <strong id="floatingCartTotal">$0</strong>
+  </button>
+
+  <div id="cartOverlay" class="overlay" hidden>
+    <section class="sheet cart-sheet" aria-label="Carrito de compras">
+      <div class="sheet-head">
+        <div>
+          <span class="sheet-label">Pedido</span>
+          <h2>Tu carrito</h2>
+        </div>
+
+        <button type="button" class="close-button" data-close="#cartOverlay" aria-label="Cerrar carrito">x</button>
+      </div>
+
+      <div id="cartItems" class="cart-items"></div>
+
+      <div class="summary-card">
+        <div class="summary-row">
+          <span>Productos</span>
+          <strong id="cartSubtotal">$0</strong>
+        </div>
+
+        <div class="summary-row">
+          <span id="cartDeliveryLabel">Domicilio por localidad</span>
+          <strong id="cartDeliveryFee">$0</strong>
+        </div>
+
+        <div class="summary-row total-row">
+          <span>Total</span>
+          <strong id="cartTotal">$0</strong>
+        </div>
+
+        <button type="button" id="clearCartButton" class="ghost-button">Vaciar carrito</button>
+      </div>
+
+      <form id="checkoutForm" class="stack-form">
+        <div class="field-group">
+          <label for="customerName">Nombres</label>
+          <input id="customerName" name="customerName" type="text" autocomplete="name" placeholder="Nombre completo" required />
+        </div>
+
+        <div class="field-group">
+          <label for="customerPhone">Celular del cliente</label>
+          <input id="customerPhone" name="customerPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="3001234567" required />
+          <small class="helper-note">Se enviará una copia del pedido a este número por WhatsApp.</small>
+        </div>
+
+        <div class="field-group">
+          <label for="customerAddress">Dirección</label>
+          <input id="customerAddress" name="customerAddress" type="text" autocomplete="street-address" placeholder="Barrio, calle y número" required />
+        </div>
+
+        <div class="field-group">
+          <label for="customerLocality">Localidad de entrega</label>
+          <select id="customerLocality" name="customerLocality" required></select>
+          <small class="helper-note">El costo del domicilio cambia según la localidad seleccionada.</small>
+        </div>
+
+        <div class="field-group">
+          <label for="customerDeliveryDateTime">Confirme día y hora de su pedido</label>
+          <input id="customerDeliveryDateTime" name="customerDeliveryDateTime" class="delivery-datetime-input" type="datetime-local" required />
+          <small id="orderDateHelper" class="helper-note">Solo se permiten pedidos con mínimo 24 horas de anticipación.</small>
+        </div>
+
+        <div class="field-group">
+          <label for="customerNotes">Notas</label>
+          <textarea id="customerNotes" name="customerNotes" placeholder="Dedicatoria, horario o detalle adicional"></textarea>
+        </div>
+
+        <button type="submit" id="sendOrderButton" class="primary-button wide-button">Enviar pedido y copia por WhatsApp</button>
+      </form>
+    </section>
+  </div>
+
+  <div id="adminLoginOverlay" class="overlay" hidden>
+    <section class="sheet auth-sheet" aria-label="Gestión local">
+      <div class="sheet-head">
+        <div>
+          <span class="sheet-label">Local</span>
+          <h2>Activar gestión local</h2>
+        </div>
+
+        <button type="button" class="close-button" data-close="#adminLoginOverlay" aria-label="Cerrar gestión local">x</button>
+      </div>
+
+      <form id="adminLoginForm" class="stack-form">
+        <div class="helper-note">Esta gestión solo guarda cambios en este navegador. Para publicarlos en GitHub Pages debes actualizar los archivos del proyecto y volver a subirlos.</div>
+        <button type="submit" class="primary-button wide-button">Continuar</button>
+      </form>
+    </section>
+  </div>
+
+  <div id="adminOverlay" class="overlay" hidden>
+    <section class="sheet admin-sheet" aria-label="Gestión local">
+      <div class="sheet-head">
+        <div>
+          <span class="sheet-label">Local</span>
+          <h2>Gestión local</h2>
+        </div>
+
+        <div class="sheet-actions">
+          <button type="button" id="adminLogoutButton" class="secondary-button small-button">Salir</button>
+          <button type="button" class="close-button" data-close="#adminOverlay" aria-label="Cerrar gestión local">x</button>
+        </div>
+      </div>
+
+      <section class="panel-card">
+        <h3>Ajustes de la tienda</h3>
+
+        <form id="settingsForm" class="stack-form">
+          <div class="field-group">
+            <label for="storeName">Nombre del negocio</label>
+            <input id="storeName" name="storeName" type="text" placeholder="MAGIC GIFTSS" required />
+          </div>
+
+          <div class="field-group">
+            <label for="whatsappNumber">WhatsApp del negocio</label>
+            <input id="whatsappNumber" name="whatsappNumber" type="tel" inputmode="numeric" placeholder="573001234567" required />
+          </div>
+
+          <div class="field-group">
+            <label for="storePitch">Mensaje corto</label>
+            <textarea id="storePitch" name="storePitch" placeholder="Arreglos, globos y detalles para sorprender"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="soundMode">Modo de sonido</label>
+            <select id="soundMode" name="soundMode">
+              <option value="off">Desactivado</option>
+              <option value="soft">Suave</option>
+              <option value="festive">Festivo</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="storeLogo">Logo PNG transparente</label>
+            <input id="storeLogo" name="storeLogo" type="file" accept="image/png" />
+            <small class="helper-note">Sube un logo en PNG transparente para mostrarlo en la cabecera de la app.</small>
+          </div>
+
+          <div id="storeLogoPreview" class="logo-preview-box media-frame media-frame-product"></div>
+
+          <div class="field-group">
+            <label>Costos de domicilio</label>
+            <p class="helper-note">Asigna un valor a cada localidad de Bogotá y a Sabana. Ese valor se sumará al total del carrito.</p>
+            <div id="deliveryFeesGrid" class="delivery-grid"></div>
+          </div>
+
+          <button type="submit" class="secondary-button wide-button">Guardar ajustes</button>
+        </form>
+      </section>
+
+      <section class="panel-card">
+        <div class="panel-head-inline">
+          <h3 id="productFormTitle">Agregar producto</h3>
+          <button type="button" id="cancelEditButton" class="ghost-button" hidden>Cancelar edición</button>
+        </div>
+
+        <form id="productForm" class="stack-form">
+          <div class="field-group">
+            <label for="productName">Nombre del producto</label>
+            <input id="productName" name="productName" type="text" placeholder="Bouquet de rosas" required />
+          </div>
+
+          <div class="field-group">
+            <label for="productCategory">Categoría</label>
+            <select id="productCategory" name="productCategory" required>
+              <option value="DESAYUNOS">DESAYUNOS</option>
+              <option value="ARREGLOS FLORALES">ARREGLOS FLORALES</option>
+              <option value="DETALLES">DETALLES</option>
+              <option value="DECORACIONES">DECORACIONES</option>
+              <option value="FRESAS">FRESAS</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="productPrice">Valor (opcional)</label>
+            <input id="productPrice" name="productPrice" type="number" min="0" step="1000" placeholder="120000" />
+          </div>
+
+          <div class="field-group">
+            <label for="productDescription">Descripción (opcional)</label>
+            <textarea id="productDescription" name="productDescription" placeholder="Describe colores, tamaño o detalle incluido"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="productImage">Fotografía</label>
+            <input id="productImage" name="productImage" type="file" accept="image/*" />
+            <small class="helper-note">Usa una imagen en formato 20:16. La foto se ajustará automáticamente.</small>
+          </div>
+
+          <div id="imagePreview" class="preview-box media-frame media-frame-product"></div>
+
+          <button type="submit" class="primary-button wide-button">Guardar producto</button>
+        </form>
+      </section>
+
+      <section class="panel-card">
+        <h3>Fotos por categoría</h3>
+
+        <form id="categoryEventsForm" class="stack-form">
+          <div class="field-group">
+            <label for="categoryEventCategory">Categoría</label>
+            <select id="categoryEventCategory" name="categoryEventCategory" required></select>
+          </div>
+
+          <div class="field-group">
+            <label for="categoryEventImage">Fotografía de categoría</label>
+            <input id="categoryEventImage" name="categoryEventImage" type="file" accept="image/*" />
+            <small class="helper-note">Sube fotos en formato 20:16 para la vista previa de cada categoría.</small>
+          </div>
+
+          <div id="categoryEventPreview" class="preview-box media-frame media-frame-product"></div>
+
+          <button type="submit" class="secondary-button wide-button">Guardar foto de categoría</button>
+        </form>
+
+        <div id="categoryEventList" class="admin-event-list"></div>
+      </section>
+
+      <section class="panel-card">
+        <div class="panel-head-inline">
+          <h3>Productos publicados</h3>
+          <button type="button" id="resetStoreButton" class="ghost-button">Restaurar demo</button>
+        </div>
+
+        <div id="adminProductList" class="admin-product-list"></div>
+      </section>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
