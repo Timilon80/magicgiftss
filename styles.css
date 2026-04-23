@@ -1119,6 +1119,7 @@ body[data-sound-mode="festive"] .horizontal-wordmark .wordmark-line span {
   display: grid;
   gap: 2px;
   padding: 9px 12px;
+  min-width: 0;
   color: #fff;
   background: linear-gradient(180deg, transparent, rgba(28, 20, 42, 0.78));
 }
@@ -1137,7 +1138,9 @@ body[data-sound-mode="festive"] .horizontal-wordmark .wordmark-line span {
 
 .menu-stage-overlay strong {
   font-size: clamp(0.94rem, 2.4vw, 1.24rem);
-  line-height: 0.96;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .menu-stage-item[data-side="active"] .menu-stage-slide {
@@ -1253,7 +1256,7 @@ body[data-sound-mode="festive"] .horizontal-wordmark .wordmark-line span {
   border-radius: 999px;
   color: var(--muted);
   background: var(--surface);
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .category-chip {
@@ -1361,6 +1364,7 @@ body[data-sound-mode="festive"] .horizontal-wordmark .wordmark-line span {
 .product-copy {
   display: grid;
   gap: 4px;
+  min-width: 0;
 }
 
 .product-copy p {
@@ -1374,6 +1378,7 @@ body[data-sound-mode="festive"] .horizontal-wordmark .wordmark-line span {
 .item-head h4 {
   margin: 0;
   line-height: 1.18;
+  overflow-wrap: anywhere;
   text-wrap: balance;
 }
 
@@ -2062,6 +2067,21 @@ textarea {
 }
 
 @media (max-width: 520px) {
+  .chip-row {
+    gap: 8px;
+  }
+
+  .chip {
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 0.84rem;
+    line-height: 1.15;
+  }
+
+  .category-chip {
+    max-width: 100%;
+  }
+
   .topbar {
     padding: 10px;
     border-radius: 20px;
@@ -2113,7 +2133,7 @@ textarea {
   }
 
   .menu-stage-item[data-side="active"] {
-    width: min(100%, 210px);
+    width: min(100%, 224px);
   }
 
   .menu-stage-nav {
@@ -2217,8 +2237,14 @@ textarea {
   }
 
   .menu-stage-overlay strong {
-    font-size: clamp(1rem, 4.4vw, 1.08rem);
-    line-height: 1.12;
+    font-size: clamp(0.92rem, 4.2vw, 1.02rem);
+    line-height: 1.18;
+  }
+
+  .product-copy h3 {
+    font-size: 0.98rem;
+    line-height: 1.24;
+    word-break: break-word;
   }
 
   .intro-overlay {
