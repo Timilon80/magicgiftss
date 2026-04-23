@@ -177,6 +177,8 @@ const FOOTER_SECTION_CONFIG = {
 const POINTER_PARTICLE_SYMBOLS = ["✿", "❀", "❁", "❃", "◉", "◌", "🎈"];
 const POINTER_PARTICLE_COLORS = ["#ff5fa2", "#b997ee", "#d96ab3", "#7c5cff", "#6edaa0", "#ffd166"];
 const MENU_RAIN_SYMBOLS = ["✿", "❀", "❁", "✽", "✦", "✧", "❤"];
+const INTRO_TOTAL_DURATION = 4000;
+const INTRO_EXIT_DURATION = 700;
 const INTRO_SLIDES = [
   buildCatalogImagePath("DECORACIONES", "detalles_para_cada_momento_1707316943_3297535982990773723_7154471535.jpg"),
   buildCatalogImagePath("DECORACIONES", "detalles_para_cada_momento_1710864028_3327291092155138888_7154471535.jpg"),
@@ -704,7 +706,7 @@ function hideIntroOverlay(immediate = false) {
   introEndTimeout = window.setTimeout(() => {
     document.body.classList.remove("show-intro", "intro-leaving");
     refs.introOverlay.hidden = true;
-  }, 500);
+  }, INTRO_EXIT_DURATION);
 }
 
 function renderIntroSlides() {
@@ -724,14 +726,11 @@ function playIntroOverlay() {
 
   renderIntroSlides();
   refs.introOverlay.hidden = false;
+  document.body.classList.remove("intro-leaving");
   document.body.classList.add("show-intro");
   introStartTimeout = window.setTimeout(() => {
-    document.body.classList.add("intro-leaving");
-  }, 2500);
-
-  introEndTimeout = window.setTimeout(() => {
-    hideIntroOverlay(true);
-  }, 3000);
+    hideIntroOverlay();
+  }, INTRO_TOTAL_DURATION - INTRO_EXIT_DURATION);
 }
 
 function renderStoreLogoPreview() {
