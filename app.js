@@ -83,6 +83,7 @@ const DELIVERY_ZONES = [
 ];
 
 const MIN_ORDER_ADVANCE_HOURS = 24;
+const DEFAULT_BRAND_LOGO = "./LOGO.png";
 
 const defaultDeliveryFees = {
   usaquen: 14000,
@@ -109,7 +110,7 @@ const defaultDeliveryFees = {
 };
 
 const defaultSettings = {
-  brandLogo: "",
+  brandLogo: DEFAULT_BRAND_LOGO,
   soundMode: "soft",
   storeName: "MAGIC GIFTSS",
   storePitch: "Regalos y detalles listos para sorprender.",
@@ -464,6 +465,7 @@ function isLegacyDemoCatalog(products) {
 function loadSettings() {
   const value = readStorage(STORAGE_KEYS.settings, defaultSettings);
   const baseValue = typeof value === "object" && value ? value : {};
+  const nextBrandLogo = String(baseValue.brandLogo || "").trim();
   const nextStoreName = String(baseValue.storeName || "").trim();
   const nextStorePitch = String(baseValue.storePitch || "").trim();
   const nextWhatsappNumber = normalizeWhatsappNumber(baseValue.whatsappNumber);
@@ -471,6 +473,7 @@ function loadSettings() {
   return {
     ...defaultSettings,
     ...baseValue,
+    brandLogo: nextBrandLogo || defaultSettings.brandLogo,
     storeName: !nextStoreName || nextStoreName === "Claudi Flores" ? defaultSettings.storeName : nextStoreName,
     storePitch: !nextStorePitch || nextStorePitch === "Arreglos, globos y detalles listos para sorprender." ? defaultSettings.storePitch : nextStorePitch,
     whatsappNumber: nextWhatsappNumber || defaultSettings.whatsappNumber,
@@ -550,7 +553,10 @@ const refs = {
   adminLogoutButton: document.getElementById("adminLogoutButton"),
   adminOverlay: document.getElementById("adminOverlay"),
   adminProductList: document.getElementById("adminProductList"),
+  brandImages: Array.from(document.querySelectorAll("[data-brand-image]")),
   brandMark: document.getElementById("brandMark"),
+  brandNameNodes: Array.from(document.querySelectorAll("[data-brand-name]")),
+  brandTitleNodes: Array.from(document.querySelectorAll("[data-brand-title]")),
   categoryEventsForm: document.getElementById("categoryEventsForm"),
   categoryEventCategory: document.getElementById("categoryEventCategory"),
   categoryEventImage: document.getElementById("categoryEventImage"),
@@ -1401,6 +1407,8 @@ function syncCartWithProducts() {
 }
 
 function renderBranding() {
+  const logoSource = String(state.settings.brandLogo || defaultSettings.brandLogo || DEFAULT_BRAND_LOGO).trim() || DEFAULT_BRAND_LOGO;
+
   refs.storeNameView.textContent = state.settings.storeName;
   refs.storePitchView.textContent = state.settings.storePitch;
   refs.heroDescription.textContent = state.settings.storePitch;
@@ -1416,13 +1424,16 @@ function renderBranding() {
     refs.secretTrigger.removeAttribute("title");
   }
 
-  if (state.settings.brandLogo) {
-    refs.brandMark.innerHTML = `<img src="${state.settings.brandLogo}" alt="Logo de ${escapeHtml(state.settings.storeName)}" class="brand-logo-image" />`;
-    refs.brandMark.classList.add("has-logo");
-  } else {
-    refs.brandMark.textContent = "MG";
-    refs.brandMark.classList.remove("has-logo");
-  }
+  refs.brandMark.classList.add("has-logo");
+  refs.brandImages.forEach((image) => {
+    image.src = logoSource;
+  });
+  refs.brandNameNodes.forEach((node) => {
+    node.textContent = state.settings.storeName;
+  });
+  refs.brandTitleNodes.forEach((node) => {
+    node.setAttribute("aria-label", state.settings.storeName);
+  });
 }
 
 function validateCustomerPhone(value) {
@@ -2501,7 +2512,7 @@ refs.settingsForm.addEventListener("submit", (event) => {
   }, {});
 
   const nextSettings = {
-    brandLogo: state.pendingStoreLogo || state.settings.brandLogo || "",
+    brandLogo: state.pendingStoreLogo || state.settings.brandLogo || defaultSettings.brandLogo,
     deliveryFees,
     soundMode: ["off", "soft", "festive"].includes(String(formData.get("soundMode") || "")) ? String(formData.get("soundMode")) : defaultSettings.soundMode,
     storeName: String(formData.get("storeName") || "").trim() || defaultSettings.storeName,

@@ -1,4 +1,4 @@
-const CACHE_NAME = "claudi-flores-pwa-v25";
+const CACHE_NAME = "claudi-flores-pwa-v26";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,8 +6,7 @@ const APP_SHELL = [
   "./app.js",
   "./manifest.webmanifest",
   "./fondo%20web.png",
-  "./icons/icon-192.svg",
-  "./icons/icon-512.svg",
+  "./LOGO.png",
 ];
 
 self.addEventListener("install", (event) => {

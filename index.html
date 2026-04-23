@@ -10,8 +10,8 @@
   <meta name="description" content="Tienda móvil de regalos y detalles con pedido directo por WhatsApp." />
   <title>MAGIC GIFTSS | Tienda móvil</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="./icons/icon-192.svg" />
+  <link rel="icon" href="./LOGO.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./LOGO.png" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
@@ -44,25 +44,12 @@
     </div>
     <div class="intro-overlay-content">
       <span class="intro-kicker">Bienvenido a</span>
-      <div class="intro-wordmark-shell">
-        <h1 class="animated-wordmark intro-wordmark horizontal-wordmark" aria-label="MAGIC GIFTSS">
-          <span class="wordmark-line" aria-hidden="true">
-            <span>M</span>
-            <span>A</span>
-            <span>G</span>
-            <span>I</span>
-            <span>C</span>
-            <span class="wordmark-gap"></span>
-            <span>G</span>
-            <span>I</span>
-            <span>F</span>
-            <span>T</span>
-            <span>S</span>
-            <span>S</span>
-          </span>
-          <span class="sr-only">MAGIC GIFTSS</span>
-        </h1>
-      </div>
+      <h1 class="intro-brand-title intro-wordmark-shell brand-logo-shell" aria-label="MAGIC GIFTSS" data-brand-title="true">
+        <span class="brand-display-frame intro-brand-frame">
+          <img id="introBrandLogo" data-brand-image src="./LOGO.png" alt="" class="brand-display-logo" />
+        </span>
+        <span class="sr-only" data-brand-name>MAGIC GIFTSS</span>
+      </h1>
       <button type="button" id="skipIntroButton" class="ghost-button intro-skip-button">Saltar intro</button>
     </div>
   </div>
@@ -72,7 +59,11 @@
   <div class="app-shell">
     <header class="topbar">
       <button type="button" id="secretTrigger" class="brand-button" aria-label="Marca MAGIC GIFTSS">
-        <span id="brandMark" class="brand-mark">MG</span>
+        <span id="brandMark" class="brand-mark has-logo">
+          <span class="brand-display-frame brand-mark-frame">
+            <img data-brand-image src="./LOGO.png" alt="" class="brand-display-logo" />
+          </span>
+        </span>
         <span class="brand-copy">
           <strong id="storeNameView">MAGIC GIFTSS</strong>
           <small id="storePitchView">Regalos y detalles</small>
@@ -93,24 +84,13 @@
 
     <main class="main-content">
       <section class="hero-card">
-        <h1 id="heroTitle" class="animated-wordmark horizontal-wordmark" aria-label="MAGIC GIFTSS">
-          <span class="wordmark-line" aria-hidden="true">
-            <span>M</span>
-            <span>A</span>
-            <span>G</span>
-            <span>I</span>
-            <span>C</span>
-            <span class="wordmark-gap"></span>
-            <span>G</span>
-            <span>I</span>
-            <span>F</span>
-            <span>T</span>
-            <span>S</span>
-            <span>S</span>
+        <h1 id="heroTitle" class="hero-brand-title brand-logo-shell" aria-label="MAGIC GIFTSS" data-brand-title="true">
+          <span class="brand-display-frame hero-brand-frame">
+            <img id="heroBrandLogo" data-brand-image src="./LOGO.png" alt="" class="brand-display-logo" />
           </span>
-          <span class="sr-only">MAGIC GIFTSS</span>
+          <span class="sr-only" data-brand-name>MAGIC GIFTSS</span>
         </h1>
-        <p id="heroDescription">Escoge un producto, confirma día y hora y envía el pedido completo por WhatsApp.</p>
+        <p id="heroDescription">Regalos y detalles listos para sorprender.</p>
 
         <div class="hero-actions">
           <button type="button" class="primary-button" data-open-cart="true">Ver carrito</button>
