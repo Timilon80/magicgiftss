@@ -1652,7 +1652,6 @@ function renderProducts() {
 
         <div class="product-copy${getCompactTextClass(product.name, 24, 36)}">
           <h3>${escapeHtml(product.name)}</h3>
-          ${product.description ? `<p>${escapeHtml(product.description)}</p>` : ""}
         </div>
 
         ${actionButton}
